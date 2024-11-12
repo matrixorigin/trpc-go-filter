@@ -163,14 +163,14 @@ var SimpleLogFunc = func(ctx context.Context, req, rsp interface{}) string {
 var PrettyJSONLogFunc = func(ctx context.Context, req, rsp interface{}) string {
 	reqJSON, _ := json.MarshalIndent(req, "", "  ")
 	rspJSON, _ := json.MarshalIndent(rsp, "", "  ")
-	return fmt.Sprintf("\nreq:%s\nrsp:%s rid:%s", string(reqJSON), string(rspJSON), context_utils.GetRequestID(ctx))
+	return fmt.Sprintf("\nreq:%s\nrsp:%s\nrid:%s", string(reqJSON), string(rspJSON), context_utils.GetRequestID(ctx))
 }
 
 // JSONLogFunc is the method for printing JSON.
 var JSONLogFunc = func(ctx context.Context, req, rsp interface{}) string {
 	reqJSON, _ := json.Marshal(req)
 	rspJSON, _ := json.Marshal(rsp)
-	return fmt.Sprintf("\nreq:%s\nrsp:%s rid:%s", string(reqJSON), string(rspJSON), context_utils.GetRequestID(ctx))
+	return fmt.Sprintf("\nreq:%s\nrsp:%s\nrid:%s", string(reqJSON), string(rspJSON), context_utils.GetRequestID(ctx))
 }
 
 // ServerFilter is the server-side filter.
