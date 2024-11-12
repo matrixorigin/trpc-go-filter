@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/matrixone-cloud/mocloud-infra/context_utils"
 	"trpc.group/trpc-go/trpc-go"
 	"trpc.group/trpc-go/trpc-go/errs"
 	"trpc.group/trpc-go/trpc-go/filter"
@@ -150,7 +151,7 @@ var LogContextfFuncs = map[string]func(ctx context.Context, format string, args 
 
 // DefaultLogFunc is the default struct print method.
 var DefaultLogFunc = func(ctx context.Context, req, rsp interface{}) string {
-	return fmt.Sprintf(", req:%+v, rsp:%+v", req, rsp)
+	return fmt.Sprintf("req:%+v, rsp:%+v rid:%s", req, rsp, context_utils.GetRequestID(ctx))
 }
 
 // SimpleLogFunc does not print the struct.
@@ -162,14 +163,14 @@ var SimpleLogFunc = func(ctx context.Context, req, rsp interface{}) string {
 var PrettyJSONLogFunc = func(ctx context.Context, req, rsp interface{}) string {
 	reqJSON, _ := json.MarshalIndent(req, "", "  ")
 	rspJSON, _ := json.MarshalIndent(rsp, "", "  ")
-	return fmt.Sprintf("\nreq:%s\nrsp:%s", string(reqJSON), string(rspJSON))
+	return fmt.Sprintf("\nreq:%s\nrsp:%s rid:%s", string(reqJSON), string(rspJSON), context_utils.GetRequestID(ctx))
 }
 
 // JSONLogFunc is the method for printing JSON.
 var JSONLogFunc = func(ctx context.Context, req, rsp interface{}) string {
 	reqJSON, _ := json.Marshal(req)
 	rspJSON, _ := json.Marshal(rsp)
-	return fmt.Sprintf("\nreq:%s\nrsp:%s", string(reqJSON), string(rspJSON))
+	return fmt.Sprintf("\nreq:%s\nrsp:%s rid:%s", string(reqJSON), string(rspJSON), context_utils.GetRequestID(ctx))
 }
 
 // ServerFilter is the server-side filter.
